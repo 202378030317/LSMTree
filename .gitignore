@@ -1,0 +1,28 @@
+# 编译产物
+obj/
+*.o
+*.a
+test_lsm
+test_lsm.exe
+
+# 测试数据目录
+test_db*/
+test_db
+test_db2
+test_db3
+test_db4
+test_db5
+
+# IDE 文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
