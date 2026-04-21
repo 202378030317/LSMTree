@@ -47,3 +47,15 @@ L3: 1.6GB × 10 = 16GB
 FLUSH_INTERVAL_MS = 50   // 更及时刷盘
 // 写入不频繁
 FLUSH_INTERVAL_MS = 500  // 减少 CPU 唤醒
+
+问题：查询不存在的 key
+LSM Tree 查询流程：
+1. 查 MemTable（内存，快）
+2. 查 Immutable MemTable（内存，快）
+3. 查 L0 SSTable（可能有多个文件，慢）
+4. 查 L1 SSTable（慢）
+...
+如果 key 不存在，要查完所有 SSTable 才能确定就太慢了！
+解决方案：每个 SSTable 配一个布隆过滤器
+查询前先问过滤器："这个 key 在文件里吗？"
+如果回答"不在"，直接跳过这个文件，可以节省 90% 以上的无效磁盘读取
